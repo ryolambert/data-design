@@ -43,12 +43,13 @@
 				<h1><i class="fa fa-user"></i></span> <u>Persona</u></h1>
 			</div>
 			<div class="col-xs-12 col-md-12 col-lg-12">
+				<h1><u>Jack Deer</u></h1>
 				<div class="well">
-					<h2>Jack Deer</h2>
 					<div class="col-xs-12 col-md-12 col-lg-12">
 						<img src="jackDeer.jpg" class="img-responsive" alt="Photo of Jack Deer"/>
 					</div>
 					<p><strong>Gender-</strong> <br> Male</p>
+					<p><strong>Age-</strong> <br> 32</p>
 					<p><strong>Profession-</strong> <br> Marketing Director</p>
 					<p><strong>Attitudes-</strong> <br> Jack is a self-starter that prides himself on his ability to fluidly
 						switch between various digital and analog social platforms. He’s constantly reading up on the latest
