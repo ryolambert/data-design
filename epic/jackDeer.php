@@ -23,7 +23,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a href="#" class="navbar-brand"><span class="fa fa-database"></span> Data Design</a>
+					<a href="index.php" class="navbar-brand"><span class="fa fa-database"></span> Data Design</a>
 				</div>
 				<div class="collapse navbar-collapse" id="bs-nav-demo">
 					<ul class="nav navbar-nav">
