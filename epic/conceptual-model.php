@@ -53,7 +53,6 @@
 						<li>profileLastName</li>
 						<li>profileEmail</li>
 						<li>profileHash (for account password)</li>
-						<li>profilePhone</li>
 					</ul>
 
 					<h3><strong>Article</strong></h3>
@@ -81,6 +80,12 @@
 						<li>Many <strong>Articles</strong> can be applauded by many <strong>Profiles</strong> -
 							<strong><em>(<var>m</var> to <var>n</var>)</em></strong></li>
 					</ul>
+				</div>
+			</div>
+			<h1><u>Entity Relationship Diagram</u></h1>
+			<div class="col-xs-12 col-md-12 col-lg-12">
+				<div class="well">
+					<img class="img-responsive" src="mediumClapErd.svg" alt="Entity Relationship Diagram of Medium Clap"/>
 				</div>
 			</div>
 		</div>
