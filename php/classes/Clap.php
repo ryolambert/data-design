@@ -33,12 +33,6 @@ class clap implements \JsonSeriablizable {
 	private $clapArticleId;
 
 	/**
-	 * the actual written text conten of this clap
-	 * @var string $clapArticleId
-	 */
-	private $clapArticleId;
-
-	/**
 	 * date and time this clap was posted, in a PHP DataTime object
 	 * @var \DateTime $clapDate
 	 */
@@ -156,40 +150,6 @@ class clap implements \JsonSeriablizable {
 
 // convert and store the Article id
 		$this->clapArticleId = $uuid;
-	}
-
-	/**
-	 * accessor method for clap content
-	 *
-	 * @return string value of clap content
-	 **/
-	public function getClapArticleId(): string {
-		return ($this->clapArticleId);
-	}
-
-	/**
-	 * mutator method for clap content
-	 *
-	 * @param string $newClapArticleId new value of clap content
-	 * @throws \InvalidArgumentException if $newClapArticleId is not a string or insecure
-	 * @throws \RangeException if $newClapArticleId is > 8192 characters
-	 * @throws \TypeError if $newClapArticleId is not a string
-	 **/
-	public function setClapArticleId(string $newClapArticleId): void {
-		// verify the clap content is secure
-		$newClapArticleId = trim($newClapArticleId);
-		$newClapArticleId = filter_var($newClapArticleId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newClapArticleId) === true) {
-			throw(new \InvalidArgumentException("clap content is empty or insecure"));
-		}
-
-		// verify the clap content will fit in the database
-		if(strlen($newClapArticleId) > 8192) {
-			throw(new \RangeException("clap content too large"));
-		}
-
-		// store the clap content
-		$this->clapArticleId = $newClapArticleId;
 	}
 
 	/**
