@@ -9,11 +9,11 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
 				integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Oswald:300,400|Space+Mono" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="./index.css"/>
+		<link rel="stylesheet" type="text/css" href="./style.css"/>
 		<title>Data Design Index</title>
 
 	</head>
-	<body class="background-gradient">
+	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
@@ -36,16 +36,32 @@
 				</div>
 			</div>
 		</nav>
-		<div id="particles-js">
+		<div id="large-header" class="large-header">
+			<canvas id="demo-canvas"></canvas>
 			<h1 class="main-title">Data Design <span class="thin">Project</span></h1>
 			<h2 class="sub-title">Investigation of Medium's Claps</h2>
-			<button class="btn btn-default btn-lg button-title"><i class="fa fa-sign-language"></i> <a
-					href="jackDeer.php">Get Started!</a></button>
+			<button class="btn btn-default btn-lg button-title" ><i class="fa fa-sign-language"></i> <a href="jackDeer.php">Get Started!</a></button>
 		</div>
-		<script src="js/particles.js"></script>
-		<script src="js/particles.min.js"></script>
-		<script src="js/app.js"></script>
+		<!--		<div class="container">-->
+		<!--			<div class="row">-->
+		<!--				<div class="col-lg-12">-->
+		<!--					<div class="content">-->
+		<!--						<h1>Data-Design Project</h1>-->
+		<!--						<h3>Investigation of Medium's Claps</h3>-->
+		<!--						<hr>-->
+		<!--						<button class="btn btn-default btn-lg" ><i class="fa fa-sign-language"></i> <a href="jackDeer.php">Get Started!</a></button>-->
+		<!--					</div>-->
+		<!--				</div>-->
+		<!--			</div>-->
+		<!--		</div>-->
+		</canvas>
+		<script src="js/TweenLite.min.js"></script>
+		<script src="js/EasePack.min.js"></script>
+		<script src="js/rAF.js"></script>
+		<script src="js/animate.js"></script>
 
+		<!-- For the demo ad only -->
+		<script src="//tympanus.net/codrops/adpacks/demoad.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</body>

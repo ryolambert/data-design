@@ -4,16 +4,15 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=], initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<link rel="stylesheet" type="text/css" href="./style.css"/>
 		<link rel="stylesheet" type="text/css"
 				href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css"
-				href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link href="https://fonts.googleapis.com/css?family=Proza+Libre|Work+Sans" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/css?family=Oswald|Space+Mono" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./style.css"/>
 		<title>Conceptual-Model</title>
 
 	</head>
-	<body>
+	<body class="background-gradient">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
@@ -39,12 +38,13 @@
 			</div>
 		</nav>
 		<div class="container">
-			<div class="jumbotron">
+			<div class="jumbotron col-xs-12 col-md-12 col-lg-12 box-shadow text-center">
 				<h1><i class="fas fa-code-branch"></i></span> <u>Conceptual Model</u></h1>
 			</div>
-			<div class="col-xs-12 col-md-12">
-				<div class="well">
-					<h2>Entities & Attributes</h2>
+			<div class="well col-xs-12 col-md-12 col-lg-12 box-shadow">
+				<div class="persona-content">
+					<h1>Entities & Attributes</h1>
+					<hr/>
 					<h3><strong>Profile</strong></h3>
 					<ul>
 						<li>profileId (primary key)</li>
@@ -82,10 +82,12 @@
 					</ul>
 				</div>
 			</div>
-			<h1><u>Entity Relationship Diagram</u></h1>
-			<div class="col-xs-12 col-md-12 col-lg-12">
-				<div class="well">
-					<img class="img-responsive" src="mediumClapErd.svg" alt="Entity Relationship Diagram of Medium Clap"/>
+
+			<div class="well col-xs-12 col-md-12 col-lg-12 box-shadow">
+				<div>
+					<h1>Entity Relationship Diagram</h1>
+					<hr/>
+					<img class="img-responsive" src="images/mediumClapErd.svg" alt="Entity Relationship Diagram of Medium Clap"/>
 				</div>
 			</div>
 		</div>
