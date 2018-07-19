@@ -25,6 +25,11 @@ class Profile {
 	 **/
 	private $profileId;
 
+	/** activation token unique to user for verification
+	 * @var $profileActivationToken
+	 **/
+	private $profileActivationToken;
+
 	/**
 	 *  first name for the Profile that wrote the article or clapped one
 	 * @var string $profileFirstName
@@ -36,11 +41,6 @@ class Profile {
 	 * @var string $profileLastName
 	 **/
 	private $profileLastName;
-
-	/** activation token unique to user for verification
-	 * @var $profileActivationToken
-	 **/
-	private $profileActivationToken;
 
 	/**
 	 * email for Profile user
@@ -60,6 +60,23 @@ class Profile {
 	 * @var $profileSalt
 	 */
 	private $profileSalt;
+
+	public function __construct($newProfileId, ?string $newProfileActivationToken, string $newProfileFirstName, string $newProfileLastName, string $newProfileEmail, string $newProfileHash, string $newProfileSalt) {
+		try {
+			$this->setProfileId($newProfileId);
+			$this->setProfileActivationToken($newProfileActivationToken);
+			$this->setProfileEmail($newProfileEmail);
+			$this->setProfileFirstName($newProfileFirstName);
+			$this->setProfileLastName($newProfileLastName);
+			$this->setProfileHash($newProfileHash);
+			$this->setProfileSalt($newProfileSalt);
+		}
+			//determine what exception type was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+	}
 
 	/**
 	 * accessor method for profile id
@@ -176,7 +193,7 @@ class Profile {
 		}
 		// verify the at last name will fit in the database
 		if(strlen($newProfileLastName) > 32) {
-			throw(new \RangeException("profile at last name is too large"));
+			throw(new \RangeException("profile last name is too large"));
 		}
 		// store the at last name
 		$this->profileLastName = $newProfileLastName;
@@ -250,5 +267,13 @@ class Profile {
 		$this->profileHash = $newProfileHash;
 	}
 
+	/**
+	 *accessor method for profile salt
+	 *
+	 * @return string representation of the salt hexadecimal
+	 */
+	public function getProfileSalt(): string {
+		return $this->profileSalt;
+	}
 
 }

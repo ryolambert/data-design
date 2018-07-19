@@ -6,37 +6,41 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<link rel="stylesheet" type="text/css"
 				href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+				integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Oswald|Space+Mono" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="./style.css"/>
 		<title>Conceptual-Model</title>
 
 	</head>
 	<body class="background-gradient">
+
 		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-nav-demo"
-							  aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a href="index.php" class="navbar-brand"><span class="fa fa-database"></span> Data Design</a>
-				</div>
-				<div class="collapse navbar-collapse" id="bs-nav-demo">
-					<ul class="nav navbar-nav">
-						<li><a href="index.php">Home</a></li>
-						<li><a href="jackDeer.php">Persona</a></li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="use-case.php">Use Case</a></li>
-						<li><a href="conceptual-model.php">Conceptual Model</a></li>
-					</ul>
+			<div class="navbar-inner">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+								  data-target="#bs-nav-demo"
+								  aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a href="index.php" class="navbar-brand"><span class="fa fa-database"></span> Data Design</a>
+					</div>
+					<div class="collapse navbar-collapse nav navbar-nav navbar-right" id="bs-nav-demo">
+						<ul class="nav navbar-nav">
+							<li><a href="index.php">Home</a></li>
+							<li><a href="jackDeer.php">Persona</a></li>
+							<li><a href="use-case.php">Use Case</a></li>
+							<li><a href="conceptual-model.php">Conceptual Model</a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</nav>
+
 		<div class="container">
 			<div class="jumbotron col-xs-12 col-md-12 col-lg-12 box-shadow text-center">
 				<h1><i class="fas fa-code-branch"></i></span> <u>Conceptual Model</u></h1>
@@ -87,7 +91,8 @@
 				<div>
 					<h1>Entity Relationship Diagram</h1>
 					<hr/>
-					<img class="img-responsive" src="images/mediumClapErd.svg" alt="Entity Relationship Diagram of Medium Clap"/>
+					<img class="img-responsive" src="images/mediumClapErd.svg"
+						  alt="Entity Relationship Diagram of Medium Clap"/>
 				</div>
 			</div>
 		</div>

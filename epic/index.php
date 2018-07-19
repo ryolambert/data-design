@@ -15,6 +15,7 @@
 	</head>
 	<body class="background-gradient">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-nav-demo"
@@ -35,7 +36,9 @@
 					</ul>
 				</div>
 			</div>
+			</div>
 		</nav>
+
 		<div id="particles-js">
 			<h1 class="main-title">Data Design <span class="thin">Project</span></h1>
 			<h2 class="sub-title">Investigation of Medium's Claps</h2>

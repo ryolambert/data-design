@@ -12,62 +12,66 @@ use Ramsey\Uuid\Uuid;
  * @author James Ryotaro Lambert <ryolambert@gmail.com>
  * @version 4.0.0
  **/
-class Article {
+class Article implements \JsonSeriablizable {
+	use ValidateDate;
 	use ValidateUuid;
-	/**
-	 * id for this Article; this is the primary key
-	 * @var Uuid $ArticleId
-	 **/
 
 	/**
 	 * id for this Article; this is the primary key
-	 * @var Uuid $ArticleId
+	 * @var Uuid $articleId
 	 **/
-	private $ArticleId;
+	private $articleId;
+
+	/** id for the Article Poster's Profile; this is a foreign key
+	 * @var Uuid $articleProfileId
+	 **/
+	private $articleProfileId;
 
 	/**
-	 *  first name for the Article that wrote the article or clapped one
-	 * @var string $ArticleFirstName
-	 **/
-	private $ArticleFirstName;
-
-	/**
-	 *  last name for the Article that wrote the article or clapped one
-	 * @var string $ArticleLastName
-	 **/
-	private $ArticleLastName;
-
-	/** activation token unique to user for verification
-	 * @var $ArticleActivationToken
-	 **/
-	private $ArticleActivationToken;
-
-	/**
-	 * email for Article user
-	 * @var string $ArticleEmail
-	 **/
-	private $ArticleEmail;
-
-	/**
-	 * hash for Article
-	 * @var $ArticleHash
+	 * the actual written text conten of this Article
+	 * @var string $articleContent
 	 */
-	private $ArticleHash;
+	private $articleContent;
 
 	/**
-	 * salt for Article password
+	 * date and time this Article was posted, in a PHP DataTime object
+	 * @var \DateTime $articleDate
+	 */
+	private $articleDate;
+
+	/**
+	 * constructor for this Article
 	 *
-	 * @var $ArticleSalt
-	 */
-	private $ArticleSalt;
+	 * @param string|Uuid $newArticleId id of this Article or null if a new Article
+	 * @param string|Uuid $newArticleProfileId id of the Profile that sent this Article
+	 * @param string $newArticleContent string containing actual Article data
+	 * @param \DateTime|string|null $newArticleDate date and time Article was sent or null if set to current date and time
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
+	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
+	 **/
+	public function __construct($newArticleId, $newArticleProfileId, string $newArticleContent, $newArticleDate = null) {
+		try {
+			$this->setArticleId($newArticleId);
+			$this->setArticleProfileId($newArticleProfileId);
+			$this->setArticleContent($newArticleContent);
+			$this->setArticleDate($newArticleDate);
+		}
+			//determine what exception type was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+	}
 
 	/**
 	 * accessor method for Article id
-	 *
-	 * @ return Uuid value of Article id (or null if new Article)
-	 **/
+	 * @return Uuid value of Article id
+	 */
 	public function getArticleId(): Uuid {
-		return ($this->ArticleId);
+		return ($this->articleId);
 	}
 	/**
 	 * mutator method for Article id
@@ -84,171 +88,327 @@ class Article {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 		// convert and store the Article id
-		$this->ArticleId = $uuid;
-	}
-	/**
-	 * accessor method for account activation token
-	 *
-	 * @return string value of the activation token
-	 */
-	public function getArticleActivationToken() : ?string {
-		return ($this->ArticleActivationToken);
-	}
-	/**
-	 * mutator method for account activation token
-	 *
-	 * @param string $newArticleActivationToken
-	 * @throws \InvalidArgumentException  if the token is not a string or insecure
-	 * @throws \RangeException if the token is not exactly 32 characters
-	 * @throws \TypeError if the activation token is not a string
-	 */
-	public function setArticleActivationToken(?string $newArticleActivationToken): void {
-		if($newArticleActivationToken === null) {
-			$this->ArticleActivationToken = null;
-			return;
-		}
-		$newArticleActivationToken = strtolower(trim($newArticleActivationToken));
-		if(ctype_xdigit($newArticleActivationToken) === false) {
-			throw(new\RangeException("user activation is not valid"));
-		}
-		//make sure user activation token is only 32 characters
-		if(strlen($newArticleActivationToken) !== 32) {
-			throw(new\RangeException("user activation token has to be 32"));
-		}
-		$this->ArticleActivationToken = $newArticleActivationToken;
+		$this->articleId = $uuid;
 	}
 
-	/**
-	 * accessor method for at first name
-	 *
-	 * @return string value of at first name
-	 **/
-	public function getArticleFirstName(): string {
-		return ($this->ArticleFirstName);
+/**
+ * accessor method for Article profile id
+ *
+ * @return Uuid value of Article profile id
+ **/
+public function getArticleProfileId() : Uuid{
+	return($this->articleProfileId);
+}
+
+/**
+ * mutator method for Article profile id
+ *
+ * @param string | Uuid $newArticleProfileId new value of Article profile id
+ * @throws \RangeException if $newArticleProfileId is not positive
+ * @throws \TypeError if $newArticleProfileId is not an integer
+ **/
+public function setArticleProfileId( $newArticleProfileId) : void {
+	try {
+		$uuid = self::validateUuid($newArticleProfileId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		$exceptionType = get_class($exception);
+		throw(new $exceptionType($exception->getMessage(), 0, $exception));
 	}
 
-	/**
-	 * mutator method for at first name
-	 *
-	 * @param string $newArticleFirstName new value of at first name
-	 * @throws \InvalidArgumentException if $newFirstName is not a string or insecure
-	 * @throws \RangeException if $newFirstName is > 32 characters
-	 * @throws \TypeError if $newFirstName is not a string
-	 **/
-	public function setArticleFirstName(string $newArticleFirstName) : void {
-		// verify the at first name is secure
-		$newArticleFirstName = trim($newArticleFirstName);
-		$newArticleFirstName = filter_var($newArticleFirstName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newArticleFirstName) === true) {
-			throw(new \InvalidArgumentException("Article at first name is empty or insecure"));
-		}
-		// verify the at first name will fit in the database
-		if(strlen($newArticleFirstName) > 32) {
-			throw(new \RangeException("Article at first name is too large"));
-		}
-		// store the at first name
-		$this->ArticleFirstName = $newArticleFirstName;
+	// convert and store the profile id
+	$this->articleProfileId = $uuid;
+}
+
+/**
+ * accessor method for Article content
+ *
+ * @return string value of Article content
+ **/
+public function getArticleContent() : string {
+	return($this->articleContent);
+}
+
+/**
+ * mutator method for Article content
+ *
+ * @param string $newArticleContent new value of Article content
+ * @throws \InvalidArgumentException if $newArticleContent is not a string or insecure
+ * @throws \RangeException if $newArticleContent is > 8192 characters
+ * @throws \TypeError if $newArticleContent is not a string
+ **/
+public function setArticleContent(string $newArticleContent) : void {
+	// verify the Article content is secure
+	$newArticleContent = trim($newArticleContent);
+	$newArticleContent = filter_var($newArticleContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($newArticleContent) === true) {
+		throw(new \InvalidArgumentException("Article content is empty or insecure"));
 	}
 
-	/**
-	 * accessor method for at last name
-	 *
-	 * @return string value of at last name
-	 **/
-	public function getArticleLastName(): string {
-		return ($this->ArticleLastName);
+	// verify the Article content will fit in the database
+	if(strlen($newArticleContent) > 8192) {
+		throw(new \RangeException("Article content too large"));
 	}
 
-	/**
-	 * mutator method for at last name
-	 *
-	 * @param string $newArticleLastName new value of at last name
-	 * @throws \InvalidArgumentException if $newLastName is not a string or insecure
-	 * @throws \RangeException if $newLastName is > 32 characters
-	 * @throws \TypeError if $newLastName is not a string
-	 **/
-	public function setArticleLastName(string $newArticleLastName) : void {
-		// verify the at last name is secure
-		$newArticleLastName = trim($newArticleLastName);
-		$newArticleLastName = filter_var($newArticleLastName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newArticleLastName) === true) {
-			throw(new \InvalidArgumentException("Article at last name is empty or insecure"));
-		}
-		// verify the at last name will fit in the database
-		if(strlen($newArticleLastName) > 32) {
-			throw(new \RangeException("Article at last name is too large"));
-		}
-		// store the at last name
-		$this->ArticleLastName = $newArticleLastName;
+	// store the Article content
+	$this->articleContent = $newArticleContent;
+}
+
+/**
+ * accessor method for Article date
+ *
+ * @return \DateTime value of Article date
+ **/
+public function getArticleDate() : \DateTime {
+	return($this->articleDate);
+}
+
+/**
+ * mutator method for Article date
+ *
+ * @param \DateTime|string|null $newArticleDate Article date as a DateTime object or string (or null to load the current time)
+ * @throws \InvalidArgumentException if $newArticleDate is not a valid object or string
+ * @throws \RangeException if $newArticleDate is a date that does not exist
+ **/
+public function setArticleDate($newArticleDate = null) : void {
+	// base case: if the date is null, use the current date and time
+	if($newArticleDate === null) {
+		$this->articleDate = new \DateTime();
+		return;
 	}
 
-	/**
-	 * accessor method for email
-	 *
-	 * @return string value of email
-	 **/
-	public function getArticleEmail(): string {
-		return $this->ArticleEmail;
+	// store the like date using the ValidateDate trait
+	try {
+		$newArticleDate = self::validateDateTime($newArticleDate);
+	} catch(\InvalidArgumentException | \RangeException $exception) {
+		$exceptionType = get_class($exception);
+		throw(new $exceptionType($exception->getMessage(), 0, $exception));
+	}
+	$this->articleDate = $newArticleDate;
+}
+
+/**
+ * inserts this Article into mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function insert(\PDO $pdo) : void {
+
+	// create query template
+	$query = "INSERT INTO article(articleId,articleProfileId, articleContent, articleDate) VALUES(:articleId, :articleProfileId, :articleContent, :articleDate)";
+	$statement = $pdo->prepare($query);
+
+	// bind the member variables to the place holders in the template
+	$formattedDate = $this->articleDate->format("Y-m-d H:i:s.u");
+	$parameters = ["articleId" => $this->articleId->getBytes(), "articleProfileId" => $this->articleProfileId->getBytes(), "articleContent" => $this->articleContent, "articleDate" => $formattedDate];
+	$statement->execute($parameters);
+}
+
+
+/**
+ * deletes this Article from mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function delete(\PDO $pdo) : void {
+
+	// create query template
+	$query = "DELETE FROM article WHERE articleId = :articleId";
+	$statement = $pdo->prepare($query);
+
+	// bind the member variables to the place holder in the template
+	$parameters = ["articleId" => $this->articleId->getBytes()];
+	$statement->execute($parameters);
+}
+
+/**
+ * updates this Article in mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function update(\PDO $pdo) : void {
+
+	// create query template
+	$query = "UPDATE article SET articleProfileId = :articleProfileId, articleContent = :articleContent, articleDate = :articleDate WHERE articleId = :articleId";
+	$statement = $pdo->prepare($query);
+
+
+	$formattedDate = $this->articleDate->format("Y-m-d H:i:s.u");
+	$parameters = ["articleId" => $this->articleId->getBytes(),"articleProfileId" => $this->articleProfileId->getBytes(), "articleContent" => $this->articleContent, "articleDate" => $formattedDate];
+	$statement->execute($parameters);
+}
+
+/**
+ * gets the Article by articleId
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param Uuid|string $articleId Article id to search for
+ * @return Article|null Article found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getArticleByArticleId(\PDO $pdo, $articleId) : ?Article {
+	// sanitize the articleId before searching
+	try {
+		$articleId = self::validateUuid($articleId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
 	}
 
-	/**
-	 * mutator method for email
-	 *
-	 * @param string $newArticleEmail new value of email
-	 * @throws \InvalidArgumentException if $newEmail is not a valid email or insecure
-	 * @throws \RangeException if $newEmail is > 128 characters
-	 * @throws \TypeError if $newEmail is not a string
-	 **/
-	public function setArticleEmail(string $newArticleEmail): void {
-		// verify the email is secure
-		$newArticleEmail = trim($newArticleEmail);
-		$newArticleEmail = filter_var($newArticleEmail, FILTER_VALIDATE_EMAIL);
-		if(empty($newArticleEmail) === true) {
-			throw(new \InvalidArgumentException("Article email is empty or insecure"));
+	// create query template
+	$query = "SELECT articleId, articleProfileId, articleContent, articleDate FROM Article WHERE articleId = :articleId";
+	$statement = $pdo->prepare($query);
+
+	// bind the Article id to the place holder in the template
+	$parameters = ["articleId" => $articleId->getBytes()];
+	$statement->execute($parameters);
+
+	// grab the Article from mySQL
+	try {
+		$article = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$article = new Article($row["articleId"], $row["articleProfileId"], $row["articleContent"], $row["articleDate"]);
 		}
-		// verify the email will fit in the database
-		if(strlen($newArticleEmail) > 128) {
-			throw(new \RangeException("Article email is too large"));
-		}
-		// store the email
-		$this->articleEmail = $newArticleEmail;
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($article);
+}
+
+/**
+ * gets the Article by profile id
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param Uuid|string $articleProfileId profile id to search by
+ * @return \SplFixedArray SplFixedArray of Articles found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
+public static function getArticleByArticleProfileId(\PDO $pdo, $articleProfileId) : \SplFixedArray {
+
+	try {
+		$articleProfileId = self::validateUuid($articleProfileId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
 	}
 
-	/**
-	 * accessor method for ArticleHash
-	 *
-	 * @return string value of hash
-	 */
-	public function getArticleHash(): string {
-		return $this->ArticleHash;
+	// create query template
+	$query = "SELECT articleId, articleProfileId, articleContent, articleDate FROM Article WHERE articleProfileId = :articleProfileId";
+	$statement = $pdo->prepare($query);
+	// bind the Article profile id to the place holder in the template
+	$parameters = ["articleProfileId" => $articleProfileId->getBytes()];
+	$statement->execute($parameters);
+	// build an array of Articles
+	$Articles = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$article = new Article($row["articleId"], $row["articleProfileId"], $row["articleContent"], $row["articleDate"]);
+			$articles[$articles->key()] = $article;
+			$articles->next();
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+	return($Articles);
+}
+
+/**
+ * gets the Article by content
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $articleContent Article content to search for
+ * @return \SplFixedArray SplFixedArray of Articles found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
+public static function getArticleByArticleContent(\PDO $pdo, string $articleContent) : \SplFixedArray {
+	// sanitize the description before searching
+	$articleContent = trim($articleContent);
+	$articleContent = filter_var($articleContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($articleContent) === true) {
+		throw(new \PDOException("Article content is invalid"));
 	}
 
-	/**
-	 * mutator method for Article hash password
-	 *
-	 * @param string $newArticleHash
-	 * @throws \InvalidArgumentException if the hash is not secure
-	 * @throws \RangeException if the hash is not 128 characters
-	 * @throws \TypeError if Article hash is not a string
-	 */
-	public function setArticleHash(string $newArticleHash): void {
-		//enforce that the hash is properly formatted
-		$newArticleHash = trim($newArticleHash);
-		if(empty($newArticleHash) === true) {
-			throw(new \InvalidArgumentException("Article password hash empty or insecure"));
+	// escape any mySQL wild cards
+	$articleContent = str_replace("_", "\\_", str_replace("%", "\\%", $articleContent));
+
+	// create query template
+	$query = "SELECT articleId, articleProfileId, articleContent, articleDate FROM Article WHERE articleContent LIKE :articleContent";
+	$statement = $pdo->prepare($query);
+
+	// bind the Article content to the place holder in the template
+	$articleContent = "%$articleContent%";
+	$parameters = ["articleContent" => $articleContent];
+	$statement->execute($parameters);
+
+	// build an array of Articles
+	$articles = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$article = new Article($row["articleId"], $row["articleProfileId"], $row["articleContent"], $row["articleDate"]);
+			$articles[$articles->key()] = $article;
+			$articles->next();
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		//enforce the hash is really an Argon hash
-		$ArticleHashInfo = password_get_info($newArticleHash);
-		if($ArticleHashInfo["algoName"] !== "argon2i") {
-			throw(new \InvalidArgumentException("Article hash is not a valid hash"));
-		}
-		//enforce that the hash is exactly 97 characters.
-		if(strlen($newArticleHash) !== 97) {
-			throw(new \RangeException("Article hash must be 97 characters"));
-		}
-		//store the hash
-		$this->ArticleHash = $newArticleHash;
 	}
+	return($articles);
+}
 
+/**
+ * gets all Articles
+ *
+ * @param \PDO $pdo PDO connection object
+ * @return \SplFixedArray SplFixedArray of Articles found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
+public static function getAllArticles(\PDO $pdo) : \SPLFixedArray {
+	// create query template
+	$query = "SELECT articleId, articleProfileId, articleContent, articleDate FROM article";
+	$statement = $pdo->prepare($query);
+	$statement->execute();
 
+	// build an array of Articles
+	$articles = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$article = new Article($row["articleId"], $row["articleProfileId"], $row["articleContent"], $row["articleDate"]);
+			$articles[$articles->key()] = $article;
+			$articles->next();
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+	return ($articles);
+}
+
+/**
+ * formats the state variables for JSON serialization
+ *
+ * @return array resulting state variables to serialize
+ **/
+public function jsonSerialize() : array {
+	$fields = get_object_vars($this);
+
+	$fields["articleId"] = $this->articleId->toString();
+	$fields["articleProfileId"] = $this->articleProfileId->toString();
+
+	//format the date so that the front end can consume it
+	$fields["articleDate"] = round(floatval($this->articleDate->format("U.u")) * 1000);
+	return($fields);
 }

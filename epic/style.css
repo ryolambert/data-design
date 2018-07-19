@@ -16,6 +16,10 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#21d114', endColorstr='#6dc6f9', GradientType=1 );
 }
 
+.navbar-inner {
+	background:transparent;
+}
+
 .box-shadow{
 	-webkit-box-shadow: 10px 10px 5px -5px rgba(0,0,0,0.37);
 	-moz-box-shadow: 10px 10px 5px -5px rgba(0,0,0,0.37);
