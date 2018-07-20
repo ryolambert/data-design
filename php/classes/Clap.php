@@ -188,7 +188,7 @@ class clap implements \JsonSeriablizable {
 	/**
 	 * accessor method for clap Number
 	 *
-	 * @return string value of clap Number
+	 * @return int value of clap Number
 	 **/
 	public function getClapNumber(): int {
 		return ($this->clapNumber);

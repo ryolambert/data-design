@@ -251,6 +251,7 @@ class Profile {
 	public function setProfileHash(string $newProfileHash): void {
 		//enforce that the hash is properly formatted
 		$newProfileHash = trim($newProfileHash);
+		$newProfileHash = strtolower($newProfileHash);
 		if(empty($newProfileHash) === true) {
 			throw(new \InvalidArgumentException("profile password hash empty or insecure"));
 		}
@@ -275,5 +276,29 @@ class Profile {
 	public function getProfileSalt(): string {
 		return $this->profileSalt;
 	}
+
+	/**
+	 * mutator method for profile salt
+	 *
+	 * @param string $newProfileSalt
+	 * @throws \InvalidArgumentException if the salt is not secure
+	 * @throws \RangeException if the salt is not 64 characters
+	 * @throws \TypeError if the profile salt is not a string
+	 */
+	public function setProfileSalt(string $newProfileSalt): void {
+		//enforce that the salt is properly formatted
+		$newProfileSalt = trim($newProfileSalt);
+		$newProfileSalt = strtolower($newProfileSalt);
+		//enforce that the salt is string representation of a hexadecimal
+		if(!ctype_digit($newProfileSalt)) {
+			throw(new \InvalidArgumentException("profile password hash is emtpty or insecure"));
+		}
+		//enforce that the salt is exactly 64 characters.
+		$this->profileSalt = $newProfileSalt;
+	}
+
+
+public function insert (\PDO $pdo): void
+
 
 }
