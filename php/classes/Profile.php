@@ -318,5 +318,20 @@ class Profile {
 		$statement->exectue($parameters);
 	}
 
+	/**
+	 * deletes this Profile from mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function delete(\PDO $pdo): void {
+		// creates query template
+		$query = "DELETE FROM profile WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+		// binds the member variables to the placeholders in the template
+		$parameters = ["profileId" => $this->profileId->getBytes()];
+		$statement->exectue($parameters);
+	}
+
 
 }
