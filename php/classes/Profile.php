@@ -333,6 +333,21 @@ class Profile {
 		$statement->exectue($parameters);
 	}
 
-
+	/**
+	 *  updates this Profile from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a pdo connection object
+	 *
+	 */
+	public function update(\PDO $pdo): void {
+		// creates query template
+		$query = "UPDATE profile SET profileId = :profileId, profileActivationToken = :profileActivationToken, profileFirstName = :profileFirstName, profileLastName = :profileLastName, profileEmail = :profileEmail, profileHash = :profileHash, profileSalt = :profileSalt WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+		// binds the member variables to the placeholders in the template
+		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileFirstName" => $this->profileFirstName, "profileLastName" => $this->profileLastName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt];
+		$statement->execute($parameters);
+	}
 
 }
