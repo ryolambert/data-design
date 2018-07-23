@@ -85,7 +85,7 @@
 			</div>
 
 			<div class="well col-xs-12 col-md-12 col-lg-12 box-shadow">
-				<div>
+				<div class="persona-content">
 					<h1>Entity Relationship Diagram</h1>
 					<hr/>
 					<img class="img-responsive" src="images/mediumClapErd.svg"
