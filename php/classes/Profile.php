@@ -1,8 +1,11 @@
 <?php
+
 namespace Ryolambert\Datadesign\Classes;
-require_once ("autoloader.php");
-require_once (dirname(__DIR__,2) . "../vendor/autoload.php");
+require_once("autoloader.php");
+require_once(dirname(__DIR__, 2) . "../vendor/autoload.php");
+
 use Ramsey\Uuid\Uuid;
+
 /**
  * Cross Section of a Medium Profile
  *
@@ -14,6 +17,7 @@ use Ramsey\Uuid\Uuid;
  **/
 class Profile {
 	use ValidateUuid;
+
 	/**
 	 * id for this Profile; this is the primary key
 	 * @var Uuid $profileId
@@ -70,8 +74,7 @@ class Profile {
 			$this->setProfileLastName($newProfileLastName);
 			$this->setProfileHash($newProfileHash);
 			$this->setProfileSalt($newProfileSalt);
-		}
-			//determine what exception type was thrown
+		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -86,6 +89,7 @@ class Profile {
 	public function getProfileId(): Uuid {
 		return ($this->profileId);
 	}
+
 	/**
 	 * mutator method for profile id
 	 *
@@ -93,7 +97,7 @@ class Profile {
 	 * @throws \RangeException if $newProfileId is not positive
 	 * @throws \TypeError if the profile Id is not
 	 **/
-	public function setProfileId( $newProfileId): void {
+	public function setProfileId($newProfileId): void {
 		try {
 			$uuid = self::validateUuid($newProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -103,14 +107,16 @@ class Profile {
 		// convert and store the profile id
 		$this->profileId = $uuid;
 	}
+
 	/**
 	 * accessor method for account activation token
 	 *
 	 * @return string value of the activation token
 	 */
-	public function getProfileActivationToken() : ?string {
+	public function getProfileActivationToken(): ?string {
 		return ($this->profileActivationToken);
 	}
+
 	/**
 	 * mutator method for account activation token
 	 *
@@ -152,7 +158,7 @@ class Profile {
 	 * @throws \RangeException if $newFirstName is > 32 characters
 	 * @throws \TypeError if $newFirstName is not a string
 	 **/
-	public function setProfileFirstName(string $newProfileFirstName) : void {
+	public function setProfileFirstName(string $newProfileFirstName): void {
 		// verify the at first name is secure
 		$newProfileFirstName = trim($newProfileFirstName);
 		$newProfileFirstName = filter_var($newProfileFirstName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -184,7 +190,7 @@ class Profile {
 	 * @throws \RangeException if $newLastName is > 32 characters
 	 * @throws \TypeError if $newLastName is not a string
 	 **/
-	public function setProfileLastName(string $newProfileLastName) : void {
+	public function setProfileLastName(string $newProfileLastName): void {
 		// verify the at last name is secure
 		$newProfileLastName = trim($newProfileLastName);
 		$newProfileLastName = filter_var($newProfileLastName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -298,6 +304,7 @@ class Profile {
 		//stores the hash
 		$this->profileSalt = $newProfileSalt;
 	}
+
 	/**
 	 * inserts this Profile into mySQL
 	 *
@@ -313,6 +320,13 @@ class Profile {
 		$statement->execute($parameters);
 	}
 
+	/**
+	 * deletes this Profile from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
 	public function delete(\PDO $pdo): void {
 		//create query template
 		$query = "DELETE FROM profile WHERE profileId = :profileId";
@@ -322,19 +336,34 @@ class Profile {
 		$statement->execute($parameters);
 	}
 
-/*
- * TODO
- * 1. setProfileSalt
- * 2. insert
- * 3. delete
- * 4. update
- * 5. getProfileByProfileId
- * 6. getProfileByProfileEmail
- * 7. getProfileByProfileFirstName
- * 8. getProfileByProfileLastName
- * 9. getProfileByProfileActivationToken
- * 10. jsonSerialize
- */
+	/**
+	 * updates this Profile from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 **/
+	public function update(\PDO $pdo): void {
+		//creates query template
+		$query = "UPDATE profile SET profileId = :profileId, profileActivationToken = :profileActivationToken, profileFirstName = :profileFirstName, profileLastName = :profileLastName, profileEmail = :profileEmail, profileHash = :profileHash, profileSalt = :profileSalt WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+		//binds the member variables to the place holders in the template
+		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileFirstName" => $this->profileFirstName, "profileLastName" => $this->profileLastName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt];
+		$statement->execute($parameters);
+	}
 
- 
+	/*
+	 * TODO
+	 * 1. setProfileSalt
+	 * 2. insert
+	 * 3. delete
+	 * 4. update
+	 * 5. getProfileByProfileId
+	 * 6. getProfileByProfileEmail
+	 * 7. getProfileByProfileFirstName
+	 * 8. getProfileByProfileLastName
+	 * 9. getProfileByProfileActivationToken
+	 * 10. jsonSerialize
+	 */
+
+
 }
