@@ -425,6 +425,43 @@ public static function getProfileByProfileId(\PDO $pdo, string $profileId): ?Pro
 		return ($profile);
 	}
 
+	/**
+	 * gets the Profile by profile first name
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $profileFirstName for first name to search for
+	 * @return \SPLFixedArray of all profiles found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProfileByProfileFirstName(\PDO $pdo, string $profileFirstName) : \SPLFixedArray {
+		// sanitize the at FirstName before searching
+		$profileFirstName = trim($profileFirstName);
+		$profileFirstName = filter_var($profileFirstName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profileFirstName) === true) {
+			throw(new \PDOException("not a valid at FirstName"));
+		}
+		// create query template
+		$query = "SELECT  profileId, profileActivationToken, profileFirstName, profileLastName, profileEmail, profileHash, profileSalt FROM profile WHERE profileFirstName = :profileFirstName";
+		$statement = $pdo->prepare($query);
+		// bind the profile FirstName to the place holder in the template
+		$parameters = ["profileFirstName" => $profileFirstName];
+		$statement->execute($parameters);
+		$profiles = new \SPLFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while (($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileFirstName"], $row["profileLastName"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($profiles);
+	}
+
 	/*
 	 * TODO
 	 * 1. setProfileSalt
