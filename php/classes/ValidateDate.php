@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\Jlambert13\DataDesign;
+namespace Ryolambert\Datadesign\Classes;
 /**
  * Trait to Validate a mySQL Date
  *

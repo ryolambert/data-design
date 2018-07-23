@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\DataDesign;
+namespace Ryolambert\Datadesign\Classes;
 require_once ("autoloader.php");
 require_once (dirname(__DIR__,2) . "../vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
@@ -275,9 +275,65 @@ class Profile {
 	public function getProfileSalt(): string {
 		return $this->profileSalt;
 	}
+
+	/**
+	 * mutator method for profile salt
+	 *
+	 * @param string $newProfileSalt
+	 * @throws \InvalidArgumentException if the salt is not secure
+	 * @throws \RangeException if the salt is not 64 characters
+	 * @throws \TypeError if the profile salt is not a string
+	 **/
+	public function setProfileSalt(string $newProfileSalt): void {
+		//enforce that the salt is properly formatted
+		$newProfileSalt = trim($newProfileSalt);
+		$newProfileSalt = strtolower($newProfileSalt);
+		//enforce that the salt is the string representation of a hexadecimal
+		if(!ctype_xdigit($newProfileSalt)) {
+			throw(new \InvalidArgumentException("profile password hash is empty or insecure"));
+		}
+		if(strlen($newProfileSalt) !== 64) {
+			throw(new \RangeException("profile salt must be 128 characters"));
+		}
+		//stores the hash
+		$this->profileSalt = $newProfileSalt;
+	}
+	/**
+	 * inserts this Profile into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo): void {
+		//create query template
+		$query = "INSERT INTO profile(profileId, profileActivationToken, profileFirstName, profileLastName, profileEmail, profileHash, profileSalt) VALUES (:profileId, :profileActivationToken, :profileFirstName, :profileLastName, :profileEmail, :profileHash, :profileSalt)";
+		$statement = $pdo->prepare($query);
+		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileFirstName" => $this->profileFirstName, "profileLastName" => $this->profileLastName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt];
+		$statement->execute($parameters);
+	}
+
+	public function delete(\PDO $pdo): void {
+		//create query template
+		$query = "DELETE FROM profile WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+		//binds the member variables to the place holders in the template
+		$parameters = ["profileId" => $this->profileId->getBytes()];
+		$statement->execute($parameters);
+	}
+
 /*
  * TODO
- * 1. 
+ * 1. setProfileSalt
+ * 2. insert
+ * 3. delete
+ * 4. update
+ * 5. getProfileByProfileId
+ * 6. getProfileByProfileEmail
+ * 7. getProfileByProfileFirstName
+ * 8. getProfileByProfileLastName
+ * 9. getProfileByProfileActivationToken
+ * 10. jsonSerialize
  */
 
  
