@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=], initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<link rel="stylesheet" type="text/css"
-				href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+				href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
 				integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Oswald:300,400|Space+Mono" rel="stylesheet">
@@ -13,9 +13,8 @@
 		<title>Data Design Index</title>
 
 	</head>
-	<body class="background-gradient">
+	<body class="background-gradient" id="particles-js">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="navbar-inner">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-nav-demo"
@@ -39,12 +38,11 @@
 			</div>
 		</nav>
 
-		<div id="particles-js">
-			<h1 class="main-title">Data Design <span class="thin">Project</span></h1>
-			<h2 class="sub-title">Investigation of Medium's Claps</h2>
-			<button class="btn btn-default btn-lg button-title"><i class="fa fa-sign-language"></i> <a
-					href="jackDeer.php">Get Started!</a></button>
-		</div>
+		<h1 class="main-title text-shadow">Data Design Project</h1>
+		<h2 class="sub-title text-shadow">Investigation of Medium's Claps</h2>
+		<button class="btn btn-default btn-lg button-title box-shadow"><i class="fa fa-sign-language"></i> <a
+				href="jackDeer.php">Get Started!</a></button>
+
 		<script src="js/particles.js"></script>
 		<script src="js/particles.min.js"></script>
 		<script src="js/app.js"></script>

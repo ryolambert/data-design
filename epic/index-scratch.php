@@ -36,33 +36,70 @@
 				</div>
 			</div>
 		</nav>
-		<div id="large-header" class="large-header">
-			<canvas id="demo-canvas"></canvas>
-			<h1 class="main-title">Data Design <span class="thin">Project</span></h1>
-			<h2 class="sub-title">Investigation of Medium's Claps</h2>
-			<button class="btn btn-default btn-lg button-title" ><i class="fa fa-sign-language"></i> <a href="jackDeer.php">Get Started!</a></button>
-		</div>
-		<!--		<div class="container">-->
-		<!--			<div class="row">-->
-		<!--				<div class="col-lg-12">-->
-		<!--					<div class="content">-->
-		<!--						<h1>Data-Design Project</h1>-->
-		<!--						<h3>Investigation of Medium's Claps</h3>-->
-		<!--						<hr>-->
-		<!--						<button class="btn btn-default btn-lg" ><i class="fa fa-sign-language"></i> <a href="jackDeer.php">Get Started!</a></button>-->
-		<!--					</div>-->
-		<!--				</div>-->
-		<!--			</div>-->
-		<!--		</div>-->
-		</canvas>
-		<script src="js/TweenLite.min.js"></script>
-		<script src="js/EasePack.min.js"></script>
-		<script src="js/rAF.js"></script>
-		<script src="js/animate.js"></script>
+		<nav class="navbar navbar-expand-lg navbar-inner">
+			<a class="navbar-brand" href="#">Navbar</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-		<!-- For the demo ad only -->
-		<script src="//tympanus.net/codrops/adpacks/demoad.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	</body>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Link</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Dropdown
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">Action</a>
+							<a class="dropdown-item" href="#">Another action</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Something else here</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#">Disabled</a>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form>
+			</div>
+		</nav>
+
+		<div class="container">
+			<nav class="navbar navbar-expand-lg navbar-dark bck-ground fixed-top">
+				<a class="navbar-brand" href="#">Restaurant.ng</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+						  aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item active pr-3">
+							<a class="nav-link text-white" href="#section-a">Home
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+						<li class="nav-item pr-3">
+							<a class="nav-link text-white" href="#section-b">About</a>
+						</li>
+						<li class="nav-item pr-3">
+							<a class="nav-link text-white" href="#section-c">Menu</a>
+						</li>
+						<li class="nav-item pr-3">
+							<a class="nav-link text-white" href="#section-d">Reservation</a>
+						</li>
+						<li class="nav-item pr-5">
+							<a class="nav-link text-white" href="#section-e">Contact</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
 </html>

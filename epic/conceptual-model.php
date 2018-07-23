@@ -5,18 +5,16 @@
 		<meta name="viewport" content="width=], initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<link rel="stylesheet" type="text/css"
-				href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+				href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
 				integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Oswald|Space+Mono" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="./css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<title>Conceptual-Model</title>
 
 	</head>
 	<body class="background-gradient">
-
 		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="navbar-inner">
 				<div class="container">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -38,7 +36,6 @@
 						</ul>
 					</div>
 				</div>
-			</div>
 		</nav>
 
 		<div class="container">

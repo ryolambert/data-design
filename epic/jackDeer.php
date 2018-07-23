@@ -14,7 +14,6 @@
 	</head>
 	<body class="background-gradient">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="navbar-inner">
 				<div class="container">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -36,10 +35,9 @@
 						</ul>
 					</div>
 				</div>
-			</div>
+
 		</nav>
-		iv>
-		</nav>
+
 
 		<div class="container">
 			<div class="jumbotron col-xs-12 col-md-12 col-lg-12 box-shadow text-center">
