@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
 				integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Oswald|Space+Mono" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="./style.css"/>
+		<link rel="stylesheet" type="text/css" href="./css/style.css"/>
 		<title>Conceptual-Model</title>
 
 	</head>
