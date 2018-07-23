@@ -416,7 +416,7 @@ class Profile {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileFirstName", $row["profileLastName"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"]);
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileFirstName"], $row["profileLastName"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
