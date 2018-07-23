@@ -360,7 +360,7 @@ class Profile {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-public static function getProfileByProfileId(\PDO $pdo, string $profileId):?Profile {
+public static function getProfileByProfileId(\PDO $pdo, string $profileId): ?Profile {
 	//sanitize the profile id before searching
 	try {
 		$profileId = self::validateUuid($profileId);
@@ -388,7 +388,42 @@ public static function getProfileByProfileId(\PDO $pdo, string $profileId):?Prof
 	return($profile);
 }
 
-
+	/**
+	 * gets the Profile by email
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $profileEmail email to search for
+	 * @return Profile|null Profile or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail): ?Profile {
+		//  sanitizes the email before searching
+		$profileEmail = trim($profileEmail);
+		$profileEmail = filter_var($profileEmail, FILTER_VALIDATE_EMAIL);
+		if(empty($profileEmail) === true) {
+			throw(new \PDOException("not a valid email"));
+		}
+		//creates query template
+		$query = "SELECT profileId, profileActivationToken, profileFirstName, profileLastName, profileEmail, profileHash, profileSalt FROM profile WHERE profileEmail = :profileEmail";
+		$statement = $pdo->prepare($query);
+		//binds the profile id to the place holder in the template
+		$parameters = ["profileEmail" => $profileEmail];
+		$statement->execute($parameters);
+		//grabs the Profile from mySQL
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileFirstName", $row["profileLastName"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($profile);
+	}
 
 	/*
 	 * TODO
