@@ -1,6 +1,6 @@
 <?php
 
-namespace Ryolambert\Datadesign\Classes;
+namespace Ryolambert\DataDesign\Classes;
 require_once("autoloader.php");
 require_once(dirname(__DIR__, 2) . "../vendor/autoload.php");
 
@@ -350,6 +350,45 @@ class Profile {
 		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileFirstName" => $this->profileFirstName, "profileLastName" => $this->profileLastName, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt];
 		$statement->execute($parameters);
 	}
+
+	/**
+	 * gets the Profile by profile id
+	 *
+	 * @param \PDO $pdo $pdo PDO connection object
+	 * @param string $profileId profile Id to search for
+	 * @return Profile|null Profile or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+public static function getProfileByProfileId(\PDO $pdo, string $profileId):?Profile {
+	//sanitize the profile id before searching
+	try {
+		$profileId = self::validateUuid($profileId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	//create query template
+	$query = "SELECT profileId, profileFirstName, profileLastName, profileEmail, profileHash, profileSalt FROM profile WHERE profileId = :profileId";
+	$statement = $pdo->prepare($query);
+	//binds the profileId to the place holder in the template
+	$parameters = ["profileId" => $profileId->getBytes()];
+	$statement->execute($parameters);
+	// grabs the Profile from mySQL
+	try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileFirstName"], $row["profileLastName"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"]);
+		}
+	} catch(\Exception $exception)  {
+		//if the row couldn't be converted, rethow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($profile);
+}
+
+
 
 	/*
 	 * TODO
