@@ -360,33 +360,33 @@ class Profile {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-public static function getProfileByProfileId(\PDO $pdo, string $profileId): ?Profile {
-	//sanitize the profile id before searching
-	try {
-		$profileId = self::validateUuid($profileId);
-	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
-	}
-	//create query template
-	$query = "SELECT profileId, profileFirstName, profileLastName, profileEmail, profileHash, profileSalt FROM profile WHERE profileId = :profileId";
-	$statement = $pdo->prepare($query);
-	//binds the profileId to the place holder in the template
-	$parameters = ["profileId" => $profileId->getBytes()];
-	$statement->execute($parameters);
-	// grabs the Profile from mySQL
-	try {
-		$profile = null;
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		$row = $statement->fetch();
-		if($row !== false) {
-			$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileFirstName"], $row["profileLastName"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"]);
+	public static function getProfileByProfileId(\PDO $pdo, string $profileId): ?Profile {
+		//sanitize the profile id before searching
+		try {
+			$profileId = self::validateUuid($profileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-	} catch(\Exception $exception)  {
-		//if the row couldn't be converted, rethow it
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
+		//create query template
+		$query = "SELECT profileId, profileFirstName, profileLastName, profileEmail, profileHash, profileSalt FROM profile WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+		//binds the profileId to the place holder in the template
+		$parameters = ["profileId" => $profileId->getBytes()];
+		$statement->execute($parameters);
+		// grabs the Profile from mySQL
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileFirstName"], $row["profileLastName"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"]);
+			}
+		} catch(\Exception $exception) {
+			//if the row couldn't be converted, rethow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($profile);
 	}
-	return($profile);
-}
 
 	/**
 	 * gets the Profile by email
@@ -434,7 +434,7 @@ public static function getProfileByProfileId(\PDO $pdo, string $profileId): ?Pro
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProfileByProfileFirstName(\PDO $pdo, string $profileFirstName) : \SPLFixedArray {
+	public static function getProfileByProfileFirstName(\PDO $pdo, string $profileFirstName): \SPLFixedArray {
 		// sanitize the at FirstName before searching
 		$profileFirstName = trim($profileFirstName);
 		$profileFirstName = filter_var($profileFirstName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -449,7 +449,7 @@ public static function getProfileByProfileId(\PDO $pdo, string $profileId): ?Pro
 		$statement->execute($parameters);
 		$profiles = new \SPLFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while (($row = $statement->fetch()) !== false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileFirstName"], $row["profileLastName"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"]);
 				$profiles[$profiles->key()] = $profile;
@@ -471,7 +471,7 @@ public static function getProfileByProfileId(\PDO $pdo, string $profileId): ?Pro
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProfileByProfileLastName(\PDO $pdo, string $profileLastName) : \SPLFixedArray {
+	public static function getProfileByProfileLastName(\PDO $pdo, string $profileLastName): \SPLFixedArray {
 		// sanitize the at LastName before searching
 		$profileLastName = trim($profileLastName);
 		$profileLastName = filter_var($profileLastName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -486,7 +486,7 @@ public static function getProfileByProfileId(\PDO $pdo, string $profileId): ?Pro
 		$statement->execute($parameters);
 		$profiles = new \SPLFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while (($row = $statement->fetch()) !== false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileFirstName"], $row["profileLastName"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"]);
 				$profiles[$profiles->key()] = $profile;
@@ -508,8 +508,7 @@ public static function getProfileByProfileId(\PDO $pdo, string $profileId): ?Pro
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public
-	static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : ?Profile {
+	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken): ?Profile {
 		//makes sure activation token is in the right format and that it is a string representation of a hexadecimal
 		$profileActivationToken = trim($profileActivationToken);
 		if(ctype_xdigit($profileActivationToken) === false) {
@@ -535,19 +534,13 @@ public static function getProfileByProfileId(\PDO $pdo, string $profileId): ?Pro
 		}
 		return ($profile);
 	}
-	/*
-	 * TODO
-	 * 1. setProfileSalt
-	 * 2. insert
-	 * 3. delete
-	 * 4. update
-	 * 5. getProfileByProfileId
-	 * 6. getProfileByProfileEmail
-	 * 7. getProfileByProfileFirstName
-	 * 8. getProfileByProfileLastName
-	 * 9. getProfileByProfileActivationToken
-	 * 10. jsonSerialize
-	 */
 
-
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		$fields["profileId"] = $this->profileId->toString();
+		unset($fields["profileActivationToken"]);
+		unset($fields["profileHash"]);
+		unset($fields["profileSalt"]);
+		return ($fields);
+	}
 }
