@@ -32,10 +32,10 @@
 					</div>
 					<div class="collapse navbar-collapse nav navbar-nav navbar-right" id="bs-nav-demo">
 						<ul class="nav navbar-nav">
-							<li><a href="index.php">Home</a></li>
-							<li><a href="jackDeer.php">Persona</a></li>
-							<li><a href="use-case.php">Use Case</a></li>
-							<li><a href="conceptual-model.php">Conceptual Model</a></li>
+							<li><a class="nav-link" href="index.php">Home</a></li>
+							<li><a class="nav-link" href="jackDeer.php">Persona</a></li>
+							<li><a class="nav-link" href="use-case.php">Use Case</a></li>
+							<li><a class="nav-link" href="conceptual-model.php">Conceptual Model</a></li>
 						</ul>
 					</div>
 				</div>
