@@ -28,7 +28,7 @@ class clap implements \JsonSeriablizable {
 	private $clapProfileId;
 
 	/** id for the clap's Article; this is a foreign key
-	 * @var Uuid $articleProfileId
+	 * @var Uuid $clapArticleId
 	 **/
 	private $clapArticleId;
 
@@ -40,7 +40,7 @@ class clap implements \JsonSeriablizable {
 
 	/**
 	 * number of claps user has applauded Article
-	 * @var int $clapArticleId
+	 * @var int $clapNumber
 	 */
 	private $clapNumber;
 
@@ -57,12 +57,13 @@ class clap implements \JsonSeriablizable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newClapId, $newClapProfileId, string $newClapArticleId, $newClapDate = null) {
+	public function __construct($newClapId, $newClapProfileId, string $newClapArticleId, $newClapDate = null, int $newClapNumber) {
 		try {
 			$this->setClapId($newClapId);
 			$this->setClapProfileId($newClapProfileId);
 			$this->setClapArticleId($newClapArticleId);
 			$this->setClapDate($newClapDate);
+			$this->setClapNumber($newClapNumber);
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
